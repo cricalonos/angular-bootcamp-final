@@ -37,4 +37,10 @@ export class TodoService {
     });
   }
 
+  changeStatusAll(status: boolean, todoList: ToDo[]) {
+    todoList.map(todo => {
+      this.db.collection(this.collectionName).doc(todo.id).set({ 'id': todo.id, 'name': todo.name, 'status': status });
+    })
+  }
+
 }

@@ -1,14 +1,20 @@
-<div class="row justify-content-md-center">
-    <div class="col-7">
+<div class="row">
+    <div class="col d-flex justify-content-center">
         <h1>todos</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <button class="btn btn-outline-info" type="button">&#8595;</button>
+                <button class="btn btn-outline-info" type="button" (click)="changeStatusAll()">&#8595;</button>
             </div>
             <input type="text" class="form-control" id="todoName" placeholder="What needs to be done?" (keydown.enter)="addTodo($event.target)">
         </div>
-
-        <br>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
         <div class="card shadown-list">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item list-group-item-action" *ngFor="let todo of todoListShow">
@@ -22,21 +28,21 @@
                 </li>
             </ul>
         </div>
-        <br>
-        <div class="row">
-            <div class="col-3">
-                <span class="align-bottom">{{toDoIncomplete}} items left</span>
-            </div>
-            <div class="col-5">
-                <div class="btn-group justify-content-md-center" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-info" (click)="getTodoAll();">All</button>
-                    <button type="button" class="btn btn-info" (click)="getTodoFilter(false)">Active</button>
-                    <button type="button" class="btn btn-info" (click)="getTodoFilter(true)">Completed</button>
-                </div>
-            </div>
-            <div class="col-4">
-                <button *ngIf="toDoComplete > 0" type="button" class="btn btn-info" (click)="clearCompleted()"> Clear completed</button>
-            </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col d-flex justify-content-start align-self-center">
+        <span class="align-bottom">{{toDoIncomplete}} items left</span>
+    </div>
+    <div class="col d-flex justify-content-center align-self-center">
+        <div class="btn-group justify-content-md-center" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-info" (click)="getTodoAll();">All</button>
+            <button type="button" class="btn btn-info" (click)="getTodoFilter(false)">Active</button>
+            <button type="button" class="btn btn-info" (click)="getTodoFilter(true)">Completed</button>
         </div>
+    </div>
+    <div class="col d-flex justify-content-end align-self-center">
+        <button *ngIf="toDoComplete > 0" type="button" class="btn btn-info" (click)="clearCompleted()"> Clear completed</button>
     </div>
 </div>

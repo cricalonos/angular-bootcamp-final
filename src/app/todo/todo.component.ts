@@ -37,7 +37,9 @@ export class TodoComponent {
   getTodo() {
     this.toDoService.getToDo().subscribe(content => {
       this.todoList$ = content;
-      this.filter ? this.getTodoFilter(this.status) : this.getTodoAll();
+      this.filter ?
+        this.getTodoFilter(this.status) :
+        this.getTodoAll();
       this.countToDo();
     });
   }
@@ -122,6 +124,18 @@ export class TodoComponent {
       // Se realiza la sumatoria según el estado del ToDo.
       todo.status ? this.toDoComplete++ : this.toDoIncomplete++;
     });
+  }
+
+  /**
+   * Método empleado para cambiar el estado de todos los ToDo.
+   */
+  changeStatusAll() {
+    // Se valida si falta algún ToDo por completar.
+    this.toDoIncomplete > 0 ?
+      // Si todos los ToDo están completos se les cambia el estado.  
+      this.toDoService.changeStatusAll(true, this.todoList$.filter(todo => todo.status == false)) :
+      // Si algún ToDo está incompleto se completa.
+      this.toDoService.changeStatusAll(false, this.todoList$.filter(todo => todo.status == true));
   }
 
 }
