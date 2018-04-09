@@ -1,0 +1,42 @@
+<div class="row justify-content-md-center">
+    <div class="col-7">
+        <h1>todos</h1>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <button class="btn btn-outline-info" type="button">&#8595;</button>
+            </div>
+            <input type="text" class="form-control" id="todoName" placeholder="What needs to be done?" (keydown.enter)="addTodo($event.target)">
+        </div>
+
+        <br>
+        <div class="card shadown-list">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item list-group-item-action" *ngFor="let todo of todoListShow">
+                    <div [ngClass]="{'underline-text': todo.status}">
+                        <button type="button" class="close" aria-label="Close" (click)="deleteTodo(todo.id)">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <input type="checkbox" [checked]="todo.status" (change)="changeStatusTodo(todo.id, todo.name, $event.target.checked)">
+                        <span>{{todo.name}}</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-3">
+                <span class="align-bottom">{{toDoIncomplete}} items left</span>
+            </div>
+            <div class="col-5">
+                <div class="btn-group justify-content-md-center" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-info" (click)="getTodoAll();">All</button>
+                    <button type="button" class="btn btn-info" (click)="getTodoFilter(false)">Active</button>
+                    <button type="button" class="btn btn-info" (click)="getTodoFilter(true)">Completed</button>
+                </div>
+            </div>
+            <div class="col-4">
+                <button *ngIf="toDoComplete > 0" type="button" class="btn btn-info" (click)="clearCompleted()"> Clear completed</button>
+            </div>
+        </div>
+    </div>
+</div>
