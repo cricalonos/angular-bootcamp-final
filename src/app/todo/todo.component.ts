@@ -76,13 +76,15 @@ export class TodoComponent {
    * @param input Input que contiene la información del ToDo a registrar.
    */
   addTodo(input: HTMLInputElement) {
-    const todo: ToDo = {
-      'id': '',
-      'name': input.value,
-      'status': false
+    if (input.value != '') {
+      const todo: ToDo = {
+        'id': '',
+        'name': input.value,
+        'status': false
+      }
+      this.toDoService.addToDo(todo);
+      input.value = null;
     }
-    this.toDoService.addToDo(todo);
-    input.value = null;
   }
 
   /**
