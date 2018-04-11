@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { ToDo } from '../interfaces/todo.interface';
+import { ToDo } from '../shared/todo.interface';
 import { Observable } from 'rxjs/Observable';
 
+/**
+ * Clase encargada de la comunicación con la base de datos.
+ */
 @Injectable()
 export class TodoService {
 
@@ -26,19 +29,19 @@ export class TodoService {
    * Método empleado para agregar un nuevo ToDo a los registros.
    * @param todo, el ToDo a agregar. 
    */
-  addToDo(todo: ToDo) {
+  addToDo(name: string): void {
     const id = this.db.createId();
     this.db
       .collection(this.collectionName)
       .doc(id)
-      .set({ id, 'name': todo.name, 'status': todo.status });
+      .set({ id, 'name': name, 'status': false });
   }
 
   /**
    * Método empleado para cambiar el estado a un ToDo.
    * @param todo, ToDo al que se le cambiará el estado.
    */
-  changeStatusTodo(todo: ToDo) {
+  changeStatusTodo(todo: ToDo): void {
     this.db.collection(this.collectionName).doc(todo.id).set({ 'id': todo.id, 'name': todo.name, 'status': todo.status });
   }
 
@@ -46,7 +49,7 @@ export class TodoService {
    * Método empleado para eliminar un ToDo de los registros.
    * @param todo, ToDo a eliminar de los registros.
    */
-  deleteTodo(todo: ToDo) {
+  deleteTodo(todo: ToDo): void {
     this.db.collection(this.collectionName).doc(todo.id).delete();
   }
 
@@ -54,7 +57,7 @@ export class TodoService {
    * Método empleado para eliminar los registros de los ToDo completados.
    * @param todoList Listado de los ToDo completado a eliminar de los registros.
    */
-  clearCompleted(todoList: ToDo[]) {
+  clearCompleted(todoList: ToDo[]): void {
     todoList.map(todo => {
       this.deleteTodo(todo);
     });
@@ -65,7 +68,7 @@ export class TodoService {
    * @param status Nuevo estado que se asignará al listado de ToDo.
    * @param todoList Listado de ToDo a los que se les cambiará el estado.
    */
-  changeStatusAll(status: boolean, todoList: ToDo[]) {
+  changeStatusAll(status: boolean, todoList: ToDo[]): void {
     todoList.map(todo => {
       this.db.collection(this.collectionName).doc(todo.id).set({ 'id': todo.id, 'name': todo.name, 'status': status });
     })

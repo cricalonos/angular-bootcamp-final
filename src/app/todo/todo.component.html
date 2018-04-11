@@ -19,10 +19,10 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item list-group-item-action" *ngFor="let todo of todoListShow">
                     <div [ngClass]="{'underline-text': todo.status}">
-                        <button type="button" class="close" aria-label="Close" (click)="deleteTodo(todo.id)">
+                        <button type="button" class="close" aria-label="Close" (click)="deleteTodo(todo)">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <input type="checkbox" [checked]="todo.status" (change)="changeStatusTodo(todo.id, todo.name, $event.target.checked)">
+                        <input type="checkbox" [checked]="todo.status" (change)="changeStatusTodo(todo, $event.target.checked)">
                         <span>{{todo.name}}</span>
                     </div>
                 </li>

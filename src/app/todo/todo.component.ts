@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { TodoService } from '../services/todo.service';
 import { Observable } from 'rxjs/Observable';
-import { ToDo } from '../interfaces/todo.interface';
+import { ToDo } from '../shared/todo.interface';
 
+/**
+ * Clase encargada de la gestión del componente ToDo.
+ */
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html'
@@ -37,9 +40,11 @@ export class TodoComponent {
   getTodo() {
     this.toDoService.getToDo().subscribe(content => {
       this.todoList$ = content;
+      // Se valida si se está empleando un filtro actualmente.
       this.filter ?
         this.getTodoFilter(this.status) :
         this.getTodoAll();
+      // Se realiza el conteo de los ToDo
       this.countToDo();
     });
   }
@@ -59,6 +64,7 @@ export class TodoComponent {
   getTodoFilter(status: boolean) {
     this.filter = true;
     this.status = status;
+    // Se asigna al listado que será mostrado los ToDo que cumplan con el filtro.
     this.todoListShow = this.todoList$.filter(todo => todo.status == this.status);
   }
 
@@ -76,29 +82,21 @@ export class TodoComponent {
    * @param input Input que contiene la información del ToDo a registrar.
    */
   addTodo(input: HTMLInputElement) {
-    if (input.value != '') {
-      const todo: ToDo = {
-        'id': '',
-        'name': input.value,
-        'status': false
-      }
-      this.toDoService.addToDo(todo);
+    // Se valida que el input no esté vacío.
+    if (input.value !== '') {
+      // Se crea el ToDo y se envía al servicio de registro.
+      this.toDoService.addToDo(input.value);
       input.value = null;
     }
   }
 
   /**
    * Método empleado para cambiar el estado a un ToDo.
-   * @param id Id del Todo a completar.
-   * @param name Nombre del ToDo a completar.
+   * @param todo ToDo al que se le cambiará el estado.
    * @param status Nuevo estado que se asignará al ToDo.
    */
-  changeStatusTodo(id: string, name: string, status: boolean) {
-    const todo: ToDo = {
-      'id': id,
-      'name': name,
-      'status': status
-    }
+  changeStatusTodo(todo: ToDo, status: boolean) {
+    todo.status = status;
     this.toDoService.changeStatusTodo(todo);
   }
 
@@ -106,12 +104,7 @@ export class TodoComponent {
    * Método empleado para eliminar un ToDo según su Id.
    * @param id Id del ToDo a eliminar.
    */
-  deleteTodo(id: string) {
-    const todo: ToDo = {
-      'id': id,
-      'name': '',
-      'status': null
-    }
+  deleteTodo(todo: ToDo) {
     this.toDoService.deleteTodo(todo);
   }
 
@@ -122,6 +115,7 @@ export class TodoComponent {
     // Se reinician los contadores.
     this.toDoComplete = 0;
     this.toDoIncomplete = 0;
+    // Se recorre el listado completo de los ToDo.
     this.todoList$.map(todo => {
       // Se realiza la sumatoria según el estado del ToDo.
       todo.status ? this.toDoComplete++ : this.toDoIncomplete++;
