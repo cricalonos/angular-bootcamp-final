@@ -65,7 +65,7 @@ export class TodoComponent {
     this.filter = true;
     this.status = status;
     // Se asigna al listado que será mostrado los ToDo que cumplan con el filtro.
-    this.todoListShow = this.todoList$.filter(todo => todo.status == this.status);
+    this.todoListShow = this.todoList$.filter(todo => todo.status === this.status);
   }
 
   /**
@@ -73,7 +73,7 @@ export class TodoComponent {
    */
   clearCompleted() {
     // Se aplica un filtro para seleccionar los ToDo que están completos.
-    const clearList: ToDo[] = this.todoList$.filter(todo => todo.status == true);
+    const clearList: ToDo[] = this.todoList$.filter(todo => todo.status === true);
     this.toDoService.clearCompleted(clearList);
   }
 
